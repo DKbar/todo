@@ -1,0 +1,25 @@
+html, body {
+  height:100%;
+}
+
+.app-wrapper{
+  margin: 0 auto;
+  width: 1200px;
+  height:100%;
+  display: grid;
+  grid-template-areas: 
+  "header"
+  "content";
+  grid-template-rows: 130px 1fr;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  
+
+}
+
+.app-wrapper-content{
+  background: rgb(214, 224, 255);
+  grid-area: content;
+  border-radius: 10px;
+  height: 100vh;
+}

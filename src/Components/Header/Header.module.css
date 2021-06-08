@@ -1,0 +1,44 @@
+.header{
+    width: 100%;
+    background: rgb(105, 163, 233);
+    grid-area: header;
+    border-radius: 10px;
+   
+  }
+
+  .name{
+     padding: 10px;
+     text-align: left;
+     font-size: 40px;
+  }
+
+  .items{
+    text-align: center;
+
+  }
+
+  .item{
+    display: inline;
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .item a{
+    color: white;
+    text-decoration: none;
+  }
+
+  .item a.activeLink{
+    color: gold;
+  }
+  .settings{
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+  }
+
+  .settings a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }

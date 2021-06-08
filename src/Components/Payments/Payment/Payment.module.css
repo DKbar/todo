@@ -1,0 +1,14 @@
+.payment{
+    padding: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 auto;
+}
+
+.table{
+    margin: 0 auto;
+}
+
+.table td{
+   width: 100px;
+}
