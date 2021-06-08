@@ -6,13 +6,13 @@ import Settings from './Components/Settings/Settings';
 import Todo from './Components/Todo/Todo';
 
 
-const App = ({todoPage, paymentsPage}) => {
+const App = (props) => {
   return (
     <div className="app-wrapper">
       <Header />
       <div className="app-wrapper-content">
-        <Route path={'/Todo'} render={() => <Todo tasksData={todoPage.tasksData}/>}/>
-        <Route path={'/Payments'} render={() => <Payments paymentsData={paymentsPage.paymentsData}/>} />
+        <Route path={'/Todo'} render={() => <Todo todoPage={props.store.todoPage} addTask={props.addTask} updateTaskText={props.updateTaskText}/>}/>
+        <Route path={'/Payments'} render={() => <Payments paymentsData={props.store.paymentsPage.paymentsData}/>} />
         <Route path={'/Settings'} render={() => <Settings />} />
       </div>
     </div>

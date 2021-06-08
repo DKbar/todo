@@ -1,3 +1,5 @@
+import {rerender} from '../index';
+
 let store = {
     todoPage: {
         tasksData: [
@@ -6,6 +8,7 @@ let store = {
             { id: 3, task: 'task6' },
             { id: 4, task: 'task7' },
         ],
+        newTaskText:'1',
     },
 
     paymentsPage: {
@@ -20,10 +23,10 @@ let store = {
 
             {
                 date: '16.03.2021',
-                payments: [
-                    { id: 3, payment: 'payment3', category: "car", cost: 150 },
-                    { id: 4, payment: 'payment4', category: "car", cost: 75 },
-                ]
+            payments: [
+                { id: 3, payment: 'payment3', category: "car", cost: 150 },
+                { id: 4, payment: 'payment4', category: "car", cost: 75 },
+            ]
             },
 
         ]
@@ -31,6 +34,21 @@ let store = {
 
 
 }
+export let addTask = () => {
+    let newTask = {
+        id: 5,
+        task: store.todoPage.newTaskText,
+    }
+    store.todoPage.tasksData.push(newTask);
+    store.todoPage.newTaskText = "";
+    rerender();
+}
 
+
+export let updateTaskText = (text) => {
+
+    store.todoPage.newTaskText = text
+    rerender();
+}
 
 export default store;

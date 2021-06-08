@@ -1,14 +1,23 @@
 import Task from "./Task/Task"
+import React from 'react'
 import styles from "./Todo.module.css"
 
-const Todo = ({tasksData}) => {
+const Todo = (props) => {
+    let onChange = (e) => {
+    let text = e.target.value;
+    props.updateTaskText(text)
+    }
 
-    let taskItem = tasksData.map(task => {
+    let onAddTask = () => {
+        props.addTask();
+    }
+    let taskItem = props.todoPage.tasksData.map(task => {
         return <Task key={task.id} task={task.task} />
     })
     return (
         <div className={styles.items}>
-            <input></input>
+            <input  onChange={(e) => onChange(e)} value={props.todoPage.newTaskText}></input>
+            <button onClick={() => onAddTask()}>Add task</button>
             {taskItem}
         </div>
     )
