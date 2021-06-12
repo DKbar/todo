@@ -12,8 +12,8 @@ const App = (props) => {
     <div className="app-wrapper">
       <Header />
       <div className="app-wrapper-content">
-        <Route path={'/Todo'} render={() => <TodoContainer store={props.store} />}/>
-        <Route path={'/Payments'} render={() => <PaymentsContainer store={props.store}/>} />
+        <Route path={'/Todo'} render={() => <TodoContainer /* store={props.store} */ />}/>
+        <Route path={'/Payments'} render={() => <PaymentsContainer /* store={props.store} *//>} />
         <Route path={'/Settings'} render={() => <Settings />} />
       </div>
     </div>
