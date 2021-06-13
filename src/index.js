@@ -5,19 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import store from './Redux/redux-store'
-import StoreContext from './StoreContext';
+import { Provider } from 'react-redux';
+
 
 
 
 let rerender = (state) => {
-  /* debugger */
   ReactDOM.render(
     <BrowserRouter>
       <React.StrictMode>
-        <StoreContext.Provider value={store}>
+        <Provider store={store}>
            <App /* state={state} dispatch={store.dispatch.bind(store)} store={store} *//>
-        </StoreContext.Provider>
-       
+        </Provider>
       </React.StrictMode>
     </BrowserRouter>,
     document.getElementById('root')

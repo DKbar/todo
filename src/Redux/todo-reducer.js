@@ -18,12 +18,12 @@ const todoReducer = (state = initialState, action) => {
                 id: 5,
                 task: state.newTaskText,
             }
-            state.tasksData.push(newTask);
-            state.newTaskText = "";
-            return state
+            return {...state, 
+                tasksData:[...state.tasksData, newTask],
+                newTaskText:'',
+            }
         case UPDATE_TASK_TEXT:
-            state.newTaskText = action.text;
-            return state;
+            return {...state, newTaskText: action.text};
         default:
             return state;
     }

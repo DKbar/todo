@@ -1,29 +1,27 @@
-
-import { onAddPaymentAC, onPaymentChangeAC } from "../../Redux/payments-reducer";
-import StoreContext from "../../StoreContext";
+import { connect } from "react-redux";
+import { onAddPaymentAC, onPaymentChangeAC, onPaymentCostChangeAC } from "../../Redux/payments-reducer";
 import Payments from "./Payments";
 
 
-const PaymentsContainer = (props) => {
-    return (
-        <StoreContext.Consumer>
-            {
-                (store) => {
-                    let state = store.getState()
 
-                    let onChange = (text) => {
-                        store.dispatch(onPaymentChangeAC(text));
-                    }
-
-                    let onAddPayment = () => {
-                        store.dispatch(onAddPaymentAC())
-                    }
-                    return <Payments onChange={onChange} onAddPayment={onAddPayment} paymentsPage={state.paymentsPage} />
-                }
-            }
-
-        </StoreContext.Consumer>)
-
+const mapStateToProps = (state) =>{
+    return {
+        paymentsPage: state.paymentsPage
+    }
 }
 
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        onChange: (text) => {
+            dispatch(onPaymentChangeAC(text));
+        },
+        onCostChange: (num) => {
+            dispatch(onPaymentCostChangeAC(num));
+        },
+        onAddPayment: () => {
+            dispatch(onAddPaymentAC())
+        },
+    }
+}
+const PaymentsContainer = connect (mapStateToProps, mapDispatchToProps)(Payments)
 export default PaymentsContainer;

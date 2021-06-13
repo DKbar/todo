@@ -3,7 +3,7 @@ import styles from "./PaymentsItems.module.css"
 
 
 const PaymentsItems = ({date, payments}) => {
-    
+        
     let payment = payments.map(payment=>{
         return <Payment
         key={payment.id}
