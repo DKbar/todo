@@ -1,0 +1,14 @@
+
+.items{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.listItem{
+    width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+    
+}

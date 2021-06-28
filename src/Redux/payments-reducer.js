@@ -51,14 +51,17 @@ const paymentsReducer = (state = initialState, action) => {
                         paymentsData: state.paymentsData.map(o => {
                             if (o.date === now) {
                               o.payments.push(newPayment);	
-                            } 
+                            }
                             return {...o, payments: o.payments.map(p => ({...p}))};
-                        })
+                        }),
+                        newPaymentCost: 0
+
                     }
 
                     : {
                         ...state,
-                        paymentsData: [...state.paymentsData, { date: now, payments: [newPayment] }]
+                        paymentsData: [...state.paymentsData, { date: now, payments: [newPayment] }],
+                        newPaymentCost: 0
                     }
             )
 

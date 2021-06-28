@@ -31,14 +31,30 @@
   .item a.activeLink{
     color: gold;
   }
-  .settings{
+  .itemSmall{
     margin-top: 10px;
     margin-right: 10px;
     float: right;
+    font-weight: bold;
+    font-size: 15px;
   }
 
-  .settings a{
+  .itemSmall a{
     color: white;
     text-decoration: none;
     font-weight: bold;
+  }
+  .itemSmall a.activeLink{
+    color: gold;
+  }
+
+  .logout {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+  .logout:hover {
+    color: gold;
+    cursor: pointer;
   }

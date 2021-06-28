@@ -30,6 +30,7 @@ const Payments = (props) => {
     let onAddPayment = () => {
         props.onAddPayment();
     }
+
     return (<>
 
         <div className={styles.items}>
