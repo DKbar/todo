@@ -2,7 +2,8 @@ import React from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
 import { withAuthRedirect } from "../../../HOC/WithAuthRedirect"
-import { addTodoListTC, getTodoListsTC, onUpdateTodoListNameAC } from "../../../Redux/todo-reducer"
+import { addTodoListTC, changeTodoListTC, deleteTodoListTC, getTodoListsTC } from "../../../Redux/todo-reducer"
+import { getIsAuth, getTodoPage } from "../../../Redux/todo-selectors"
 import TodoLists from "./TodoLists"
 
 class TodoListsContainer extends React.Component {
@@ -18,30 +19,35 @@ class TodoListsContainer extends React.Component {
     } */
 
     render() {
-
+        /* console.log('render') */
         return <TodoLists todoPage={this.props.todoPage}
-            onUpdateTodoListName={this.props.onUpdateTodoListName}
-            addTodoList={this.props.addTodoList} />
+            addTodoList={this.props.addTodoList}
+            deleteTodoList={this.props.deleteTodoList} 
+            changeTodoList={this.props.changeTodoList}/>
     }
 }
 
 let mapStateToProps = (state) => {
+    /* console.log('mapstate') */
     return {
-        todoPage: state.todoPage,
-        isAuth: state.auth.isAuth
+        todoPage: getTodoPage(state),
+        isAuth: getIsAuth(state)
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        onUpdateTodoListName: (text) => {
-            dispatch(onUpdateTodoListNameAC(text))
-        },
         getTodoLists:() =>{
             dispatch(getTodoListsTC())
         },
         addTodoList: (title) =>{
             dispatch(addTodoListTC(title))
+        },
+        deleteTodoList: (todoListId) => {
+            dispatch(deleteTodoListTC(todoListId))
+        },
+        changeTodoList:(todoListId, title) => {
+            dispatch(changeTodoListTC(todoListId, title))
         }
     }
 }
@@ -53,8 +59,6 @@ export default compose(
 
 
 /* let withRedirect = withAuthRedirect(TodoListsContainer)
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(withRedirect) */
 /* export default connect(mapStateToProps, {
     setTodoLists: setTodoListsAC,                   //!!!рефакторинг!!! dispatch создастся connect

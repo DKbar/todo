@@ -1,9 +1,11 @@
 import { connect } from "react-redux"
-import {deleteTaskTC, addTaskTC, getTodoTasksTC, onTaskCreateAC, changeTaskTC } from "../../../Redux/todo-reducer"
-import Todo from "./Todo"
+import {deleteTaskTC, addTaskTC, getTodoTasksTC, changeTaskTC } from "../../../Redux/todo-reducer"
 import React from "react"
 import { withRouter } from "react-router-dom"
 import { compose } from "redux"
+import { getTodoPage } from "../../../Redux/todo-selectors"
+import Todo from "./Todo"
+import { withAuthRedirect } from "../../../HOC/WithAuthRedirect"
 
 
 class TodoContainer extends React.Component {
@@ -15,8 +17,8 @@ class TodoContainer extends React.Component {
 
     render() {
         return <Todo todoTasks={this.props.todoPage.todoTasks}
-            newTaskText={this.props.todoPage.newTaskText}
-            onTaskCreate={this.props.onTaskCreate}
+            /* newTaskText={this.props.todoPage.newTaskText} */
+            /* onTaskCreate={this.props.onTaskCreate} */
             addTask={this.props.addTask}
             deleteTask={this.props.deleteTask}
             changeTask={this.props.changeTask}
@@ -27,17 +29,14 @@ class TodoContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        todoPage: state.todoPage
+        todoPage: getTodoPage(state)
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onTaskCreate: (text) => {
-            dispatch(onTaskCreateAC(text));
-        },
-        addTask: (todoListId, title) => {
-            dispatch(addTaskTC(todoListId, title));
+        addTask: (todoListId, title, cd) => {
+            dispatch(addTaskTC(todoListId, title, cd));
         },
         getTodoTasks: (todoListId) => {
             dispatch(getTodoTasksTC(todoListId))
@@ -54,6 +53,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default compose (
+    withAuthRedirect,
     connect(mapStateToProps, mapDispatchToProps),
     withRouter
 )(TodoContainer)

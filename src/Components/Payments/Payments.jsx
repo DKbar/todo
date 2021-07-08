@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Payments.module.css"
 import PaymentsItems from "./PaymentsItems/PaymentsItems";
+import {Test} from "./PaymentsItems/Test";
 
 const Payments = (props) => {
     
@@ -55,6 +56,7 @@ const Payments = (props) => {
             <button onClick={onAddPayment}>Add</button>
             <div>Months</div>
             {paymentsItems}
+            <Test />
         </div>
 
     </>)

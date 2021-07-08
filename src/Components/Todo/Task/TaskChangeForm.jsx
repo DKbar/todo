@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import DateTimePicker from 'react-datetime-picker';
 
 const TaskChangeForm = (props) => {
     let taskData = {
@@ -16,7 +16,7 @@ const TaskChangeForm = (props) => {
         props.editTask()
     }
     let changeValue = (prop, e) => {
-        setTaskData({ ...task, [prop]: e.target.value })
+        setTaskData({ ...task, [prop]: e instanceof Date ? e : e.target.value})
 
     }
     return (<>
@@ -28,8 +28,10 @@ const TaskChangeForm = (props) => {
             <option>2</option>
             <option>3</option>
         </select> </span>
-        <span>StartDate: <input type='date' value={task.startDate} onChange={(e) => changeValue('startDate', e)}></input></span>
-        <span>Deadline: <input type='date' value={task.deadline} onChange={(e) => changeValue('deadline', e)}></input></span>
+{/*         <span>StartDate: <input type='datetime-local' value={task.startDate} onChange={(e) => changeValue('startDate', e)}></input></span>
+        <span>Deadline: <input type='datetime-local' value={task.deadline} onChange={(e) => changeValue('deadline', e)}></input></span> */}
+        <span>StartDate: <DateTimePicker value={task.startDate} onChange={(e) => changeValue('startDate', e)} format='dd/MM/y, HH:mm:ss' /></span>
+        <span>Deadline: <DateTimePicker value={task.deadline} onChange={(e) => changeValue('deadline', e)} format='dd/MM/y, HH:mm:ss'/></span>
         {/* <button>Completed</button> */}
         <button onClick={() => changeTask(props.task.todoListId, props.task.id, task)}>Save</button>
     </>

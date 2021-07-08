@@ -2,15 +2,16 @@ import { ErrorMessage, Field, Form, Formik } from "formik"
 import { Input } from "../../FormsControls/FormsControl";
 import { requiredCreator } from "../../utils/validators/validators";
 
-let TodoForm = (props) => {
+let TodoListForm = (props) => {
     let onSubmit; 
    return (
         <Formik
-            initialValues={{ newTaskName: '' }}
-             validate={requiredCreator(["newTaskName"],6)}
+            initialValues={{ title: '' }}
+             validate={requiredCreator(["title"],6)}
              onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                    props.addTask(props.todoListId, values.newTaskName, onSubmit)
+                    props.changeTodoList(props.todoListId, values.title, /* onSubmit */)
+                    props.editMode()
                     setSubmitting(false);
                 }, 400);
             }}
@@ -20,10 +21,10 @@ let TodoForm = (props) => {
                 return(
                 <Form>
                     <div>
-                        <Field placeholder='Task Name' /* type="email" */ name="newTaskName" component={Input} />
-                        <ErrorMessage name="newTaskName" component="div" />
+                        <Field placeholder='Title' /* type="email" */ name="title" component={Input} />
+                        <ErrorMessage name="title" component="div" />
                         <button type="submit" disabled={isSubmitting} >
-                            Add Task
+                            Save
                         </button>
                     </div>  
 
@@ -32,4 +33,4 @@ let TodoForm = (props) => {
         </Formik>
     )
 }
-export default TodoForm;
+export default TodoListForm;

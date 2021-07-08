@@ -15,6 +15,34 @@
 .title{
     display: block;
     margin-top: 75px;
-    
-    
+}
+
+.titleChange{
+    display: block;
+    margin-top: 75px;
+}
+
+.list:hover {
+    cursor: pointer;
+    border: solid 1px green;
+    position: relative;
+}
+.list:hover .editControls {
+    display: inline;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.list .editControls {
+    display: none;
+}
+
+.list img{
+    height: 30px;
+    width: 30px;
+    float: right;
+}
+
+.hidden {
+    display: none;
 }

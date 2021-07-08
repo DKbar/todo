@@ -1,10 +1,13 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { requiredCreator } from "../utils/validators/validators";
+
 let LoginForm = (props) => {
     
     return (
         <Formik
             initialValues={{ email: '', password: '', rememberMe: false}}
-            /*  validate={values => {
+             validate={requiredCreator(['email', 'password'], 6)}
+             /* {values => {
                const errors = {};
                if (!values.email) {
                  errors.email = 'Required';
@@ -21,7 +24,6 @@ let LoginForm = (props) => {
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
                     props.login(values)
-                    /* alert(JSON.stringify(values, null, 2)); */
                     setSubmitting(false);
                 }, 400);
             }}
