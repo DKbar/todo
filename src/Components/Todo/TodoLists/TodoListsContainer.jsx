@@ -2,8 +2,8 @@ import React from "react"
 import { connect } from "react-redux"
 import { compose } from "redux"
 import { withAuthRedirect } from "../../../HOC/WithAuthRedirect"
-import { addTodoListTC, changeTodoListTC, deleteTodoListTC, getTodoListsTC } from "../../../Redux/todo-reducer"
-import { getIsAuth, getTodoPage } from "../../../Redux/todo-selectors"
+import { addTodoList, changeTodoList, deleteTodoList, getTodoLists } from "../../../Redux/todo-reducer"
+import { getIsAuth, getIsFetching, getTodoListsS } from "../../../Redux/todo-selectors"
 import TodoLists from "./TodoLists"
 
 class TodoListsContainer extends React.Component {
@@ -11,49 +11,33 @@ class TodoListsContainer extends React.Component {
     componentDidMount() {
         this.props.getTodoLists()
     }
-
-/*     componentDidUpdate(prevProps, prevState){
-        if (prevProps.prop != this.props.prop){
-            действие
-        }
-    } */
-
+    /*     componentDidUpdate(prevProps, prevState){
+            if (prevProps.prop != this.props.prop){
+                действие
+            }
+        } */
     render() {
-        /* console.log('render') */
-        return <TodoLists todoPage={this.props.todoPage}
+        return <TodoLists todoLists={this.props.todoLists}
+            isFetching={this.props.isFetching}
             addTodoList={this.props.addTodoList}
-            deleteTodoList={this.props.deleteTodoList} 
-            changeTodoList={this.props.changeTodoList}/>
+            deleteTodoList={this.props.deleteTodoList}
+            changeTodoList={this.props.changeTodoList} />
     }
 }
-
 let mapStateToProps = (state) => {
-    /* console.log('mapstate') */
     return {
-        todoPage: getTodoPage(state),
-        isAuth: getIsAuth(state)
+        todoLists: getTodoListsS(state),
+        isFetching: getIsFetching(state),
+        isAuth: getIsAuth(state),
     }
 }
-
-let mapDispatchToProps = (dispatch) => {
-    return {
-        getTodoLists:() =>{
-            dispatch(getTodoListsTC())
-        },
-        addTodoList: (title) =>{
-            dispatch(addTodoListTC(title))
-        },
-        deleteTodoList: (todoListId) => {
-            dispatch(deleteTodoListTC(todoListId))
-        },
-        changeTodoList:(todoListId, title) => {
-            dispatch(changeTodoListTC(todoListId, title))
-        }
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, {
+        getTodoLists,
+        addTodoList,
+        deleteTodoList,
+        changeTodoList
+    }),
     withAuthRedirect
 )(TodoListsContainer)
 

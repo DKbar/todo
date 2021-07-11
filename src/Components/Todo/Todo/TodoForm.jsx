@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
+import { getTotalCount } from "../../../Redux/todo-selectors";
 import { Input } from "../../FormsControls/FormsControl";
 import { requiredCreator } from "../../utils/validators/validators";
 
@@ -10,7 +11,7 @@ let TodoForm = (props) => {
              validate={requiredCreator(["newTaskName"],6)}
              onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                    props.addTask(props.todoListId, values.newTaskName, onSubmit)
+                    props.addTask(props.todoListId, values.newTaskName, onSubmit, props.totalCount)
                     setSubmitting(false);
                 }, 400);
             }}

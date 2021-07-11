@@ -15,6 +15,7 @@ const TaskChangeForm = (props) => {
         props.changeTask(todoListId, taskId, task);
         props.editTask()
     }
+
     let changeValue = (prop, e) => {
         setTaskData({ ...task, [prop]: e instanceof Date ? e : e.target.value})
 

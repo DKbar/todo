@@ -12,15 +12,15 @@ const TaskEdit = (props) => {
     let editMode = () => {
         setActive(!active);
     }
-    let removeTask = (todoListId, taskId) => {
-        props.deleteTask(todoListId, taskId);
+    let removeTask = (todoListId, taskId, totalCount, currentPage, pageSize) => {
+        props.deleteTask(todoListId, taskId, totalCount, currentPage, pageSize);
 
     }
     return (
         <div className={styles.red}>
             <span className={styles.editControls}>
                 <img src={edit} onClick={editMode} alt='edit' />
-                <img src={remove} onClick={() => removeTask(props.task.todoListId, props.task.id)} alt='remove'/>
+                <img src={remove} onClick={() => removeTask(props.task.todoListId, props.task.id, props.totalCount, props.currentPage, props.pageSize)} alt='remove'/>
             </span>
             <div>{props.task.title}</div>
             <div>{props.task.description}</div>

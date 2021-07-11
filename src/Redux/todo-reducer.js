@@ -1,5 +1,5 @@
-import moment from "moment";
 import { todoAPI } from "../api/api";
+
 
 const ADD_TASK = 'ADD_TASK';
 const DELETE_TASK = 'DELETE_TASK';
@@ -9,40 +9,9 @@ const SET_TODO_TASKS = 'SET_TODO_TASKS'
 const ADD_TODO_LIST = 'ADD_TODO_LIST';
 const DELETE_TODO_LIST = 'DELETE_TODO_LIST';
 const SET_TODO_LISTS = 'SET_TODO_LISTS'
-/* const UPDATE_NEW_TODO_LIST_NAME = 'UPDATE_NEW_TODO_LIST_NAME' */
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
-/* let state = [
-                {
-                id: 1,
-                title: 123,
-                tasksData: [
-                    { id: 1, task: 'task1' },
-                    { id: 2, task: 'task2' },
-                    { id: 3, task: 'task6' },
-                    { id: 4, task: 'task7' },
-                ]
-            },
-            {
-                id: 2,
-                title: 234,
-                tasksData: [
-                    { id: 1, task: 'task1' },
-                    { id: 2, task: 'task2' },
-                    { id: 3, task: 'task6' },
-                    { id: 4, task: 'task7' },
-                ]
-            },
-            {
-                id: 3,
-                title: 345,
-                tasksData: [
-                    { id: 1, task: 'task1' },
-                    { id: 2, task: 'task2' },
-                    { id: 3, task: 'task6' },
-                    { id: 4, task: 'task7' },
-                ]
-            },
-        ] */
+const SET_TOTAL_PAGES_COUNT = 'SET_TOTAL_PAGES_COUNT'
+const CHANGE_PAGE = 'CHANGE_PAGE'
 
 let initialState = {
     todoLists: [],
@@ -61,18 +30,24 @@ let initialState = {
             addedDate: '',
         }
     ],
-    newTodoListName: '',
+/*     newTodoListName: '', */
     isFetching: false,
+    pageSize: 10,
+    totalCount:null,
+    currentPage: 1
 };
 
 const todoReducer = (state = initialState, action) => {
 
     switch (action.type) {
-
         case ADD_TASK:
             return {
                 ...state,
-                todoTasks: [action.item, ...state.todoTasks.slice(0, 9)],
+                todoTasks: [action.item,
+/*                     action.item.deadline = new Date(action.item.deadline),
+                    action.item.startDate = new Date(action.item.startDate), */
+                     ...state.todoTasks.slice(0, 9)
+                    ],
             }
         case DELETE_TASK:
             return {
@@ -87,8 +62,8 @@ const todoReducer = (state = initialState, action) => {
                 todoTasks: [...state.todoTasks.map(task => {
                     if (task.id === action.taskId) {
                         task = action.task;
-                        task.startDate = new Date(task.startDate);
-                        task.deadline= new Date(task.deadline);
+/*                         task.startDate = new Date(task.startDate);
+                        task.deadline = new Date(task.deadline); */
                     }
                     return task;
                 })],
@@ -96,14 +71,8 @@ const todoReducer = (state = initialState, action) => {
         case SET_TODO_TASKS:
             return {
                 ...state,
-                todoTasks: action.todoTasks.map(o => {
-                    o.startDate = new Date(o.startDate); 
-                    o.deadline = new Date(o.deadline); 
-                    return { ...o }
-                }),
-
+                todoTasks: action.todoTasks
             };
-
 
         case ADD_TODO_LIST:
 
@@ -142,12 +111,21 @@ const todoReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: action.isFetching
             };
+            case SET_TOTAL_PAGES_COUNT:
+                return {
+                    ...state,
+                    totalCount: action.totalCount
+                }; 
+            case CHANGE_PAGE:
+                return {
+                    ...state,
+                    currentPage: action.page
+                };
+                
         default:
             return state;
     }
 }
-
-
 export const changeTaskAC = (taskId, task) => ({
     type: CHANGE_TASK,
     taskId: taskId,
@@ -165,76 +143,77 @@ export const changeTodoListAC = (todoListId, title) => ({
 export const setTodoListsAC = (todoLists) => ({ type: SET_TODO_LISTS, todoLists });
 export const setTodoTasksAC = (todoTasks) => ({ type: SET_TODO_TASKS, todoTasks });
 export const toggleIsFetchingAC = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
+export const setTotalPagesCountAC = (totalCount) => ({ type: SET_TOTAL_PAGES_COUNT, totalCount });
+export const changePageAC = (page) => ({ type: CHANGE_PAGE, page });
 
-export const getTodoListsTC = () => (dispatch) => {
+export const getTodoLists = () => async (dispatch) => {
     dispatch(toggleIsFetchingAC(true));
-    todoAPI.getTodoLists().then(data => {
-        dispatch(toggleIsFetchingAC(false));
-        dispatch(setTodoListsAC(data));
-    });
+    const data = await todoAPI.getTodoLists();
+    dispatch(toggleIsFetchingAC(false));
+    dispatch(setTodoListsAC(data));
+    ;
 }
-export const addTodoListTC = (title) => (dispatch) => {
-    todoAPI.addTodoList(title).then(data => {
-        if (data.resultCode === 0) {
-            dispatch(onAddTodoListAC(data.data.item))
+export const addTodoList = (title) => async (dispatch) => {
+    const data = await todoAPI.addTodoList(title);
+    if (data.resultCode === 0) {
+        dispatch(onAddTodoListAC(data.data.item))
+    }
+}
+export const getTodoTasks = (todoListId, currentPage, pageSize) => async (dispatch) => {
+    dispatch(changePageAC(currentPage))
+    let data = await todoAPI.getTodoTasks(todoListId, currentPage, pageSize);
+    dispatch(toggleIsFetchingAC(true))
+    dispatch(setTodoTasksAC(data.items))
+    dispatch(setTotalPagesCountAC(data.totalCount))
+
+}
+export const addTask = (todoListId, title, cb, totalCount) => async (dispatch) => {
+    let data = await todoAPI.addTask(todoListId, title);
+    let totalCountUp = totalCount + 1;
+    if (data.resultCode === 0) {
+        let newTask = data.data.item;
+        newTask.description = 'Описание';
+        newTask.completed = false;
+        newTask.status = 3;
+        newTask.priority = 3;
+        newTask.startDate = new Date();
+        newTask.deadline = new Date(1000*60*60*24 + +new Date());
+        dispatch(onAddTaskAC(newTask))
+        dispatch(setTotalPagesCountAC(totalCountUp))
+        dispatch(changeTask(newTask.todoListId, newTask.id, newTask))
+        cb();
+    }
+
+}
+export const deleteTask = (todoListId, taskId, totalCount, currentPage, pageSize) => async (dispatch) => {
+    let totalCountDown = totalCount - 1;
+    let data = await todoAPI.deleteTask(todoListId, taskId);
+    if (data.resultCode === 0) {
+        dispatch(onDeleteTaskAC(taskId))
+        dispatch(setTotalPagesCountAC(totalCountDown))
+        if (totalCountDown % 10 === 0){
+            let currentPage = Math.ceil(totalCountDown / pageSize)
+            dispatch(getTodoTasks(todoListId, currentPage, pageSize))
         }
-    })
+    }
 }
-export const getTodoTasksTC = (todoListId) => (dispatch) => {
-    todoAPI.getTodoTasks(todoListId)
-        .then(data => {
-            dispatch(toggleIsFetchingAC(true))
-            dispatch(setTodoTasksAC(data.items))
-        })
+export const deleteTodoList = (todoListId) => async (dispatch) => {
+    let data = await todoAPI.deleteTodoList(todoListId);
+    if (data.resultCode === 0) {
+        dispatch(onDeleteTodoListAC(todoListId))
+    }
 }
-export const addTaskTC = (todoListId, title, cb) => (dispatch) => {
-    todoAPI.addTask(todoListId, title).then(data => {
-        if (data.resultCode === 0) {
-            let newTask = data.data.item;
-            newTask.description = 'Описание';
-            newTask.completed = false;
-            newTask.status = 3;
-            newTask.priority = 3;
-            newTask.startDate = new Date().toLocaleTimeString();
-            newTask.deadline = new Date().toLocaleTimeString();
-            dispatch(onAddTaskAC(newTask))
-            dispatch(changeTaskTC(newTask.todoListId, newTask.id, newTask))
-            cb();
-        }
-    })
+export const changeTodoList = (todoListId, title) => async (dispatch) => {
+    let data = await todoAPI.changeTodoList(todoListId, title);
+    if (data.resultCode === 0) {
+        dispatch(changeTodoListAC(todoListId, title))
+    }
 }
-export const deleteTaskTC = (todoListId, taskId) => (dispatch) => {
-    todoAPI.deleteTask(todoListId, taskId).then(data => {
-        if (data.resultCode === 0) {
-            /* dispatch(getTodoTasksTC(todoListId)) */
-            dispatch(onDeleteTaskAC(taskId))
-        }
-    })
+export const changeTask = (todoListId, taskId, task) => async (dispatch) => {
+    let data = await todoAPI.changeTask(todoListId, taskId, { ...task });
+    if (data.resultCode === 0) {
+        dispatch(changeTaskAC(taskId, data.data.item))
+    }
 }
 
-export const deleteTodoListTC = (todoListId) => (dispatch) => {
-    todoAPI.deleteTodoList(todoListId).then(data => {
-        if (data.resultCode === 0) {
-            /* dispatch(getTodoTasksTC(todoListId)) */
-            dispatch(onDeleteTodoListAC(todoListId))
-        }
-    })
-}
-export const changeTodoListTC = (todoListId, title) => (dispatch) => {
-    todoAPI.changeTodoList(todoListId, title).then(data => {
-        if (data.resultCode === 0) {
-            /* dispatch(getTodoTasksTC(todoListId)) */
-            dispatch(changeTodoListAC(todoListId, title))
-        }
-    })
-}
-
-export const changeTaskTC = (todoListId, taskId, task) => (dispatch) => {
-    todoAPI.changeTask(todoListId, taskId, { ...task }).then(data => {
-        if (data.resultCode === 0) {
-            /* dispatch(getTodoTasksTC(todoListId)) */
-            dispatch(changeTaskAC(taskId, data.data.item))
-        }
-    })
-}
 export default todoReducer;

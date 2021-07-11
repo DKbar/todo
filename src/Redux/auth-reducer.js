@@ -37,22 +37,18 @@ export const getAuthTC = () => (dispatch) => {
         })
 };
 
-export const login = (values) => (dispatch) => {
-    authAPI.login(values)
-        .then(data => {
-            if(data.resultCode === 0){
-                dispatch(getAuthTC())
-            }
-        })
+export const login = (values) => async (dispatch) => {
+    let data = await authAPI.login(values);
+    if (data.resultCode === 0) {
+        dispatch(getAuthTC())
+    }
 }
 
-export const logout = () => (dispatch) => {
-    authAPI.logout()
-    .then(data =>{
-        if(data.resultCode === 0){
-            dispatch(setUserDataAC(null, null, null, false))
-        }
-    })
+export const logout = () => async (dispatch) => {
+    let data = await authAPI.logout();
+    if (data.resultCode === 0) {
+        dispatch(setUserDataAC(null, null, null, false))
+    }
 }
 
 export default authReducer;

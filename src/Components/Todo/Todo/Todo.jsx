@@ -5,16 +5,16 @@ import Preloader from "../../common/Preloader"
 import TodoForm from "./TodoForm"
 
 const Todo =  React.memo(props => {
-
     if (!props.todoTasks) {
         return <Preloader />
     }
     let taskItem = props.todoTasks.map(task => {
-        return <Task key={task.id} task={task} deleteTask={props.deleteTask} changeTask={props.changeTask} />
+        return <Task key={task.id} task={task} deleteTask={props.deleteTask} changeTask={props.changeTask} 
+        totalCount={props.totalCount} currentPage={props.currentPage} pageSize={props.pageSize}/>
     })
     return (
         <div className={styles.items}>
-            <TodoForm addTask={props.addTask} todoListId={props.todoListId} />
+            <TodoForm addTask={props.addTask} todoListId={props.todoListId} totalCount={props.totalCount}/>
             {taskItem}
         </div>
     )

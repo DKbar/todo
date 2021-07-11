@@ -6,16 +6,14 @@ import TodoListsForm from "./TodoListsForm";
 
 
 const TodoLists = (props) => {
-
-
     return (
         <>
 
-            {props.todoPage.isFetching ? <Preloader /> : null}
+            {props.isFetching ? <Preloader /> : null}
             <div className={styles.items}>
                 <TodoListsForm addTodoList={props.addTodoList} />
                 <div className={styles.listItem}>
-                    {props.todoPage.todoLists.map(list => {
+                    {props.todoLists.map(list => {
                         return <TodoList key={list.id} title={list.title} id={list.id} 
                         deleteTodoList={props.deleteTodoList} changeTodoList={props.changeTodoList}/>
                     })}

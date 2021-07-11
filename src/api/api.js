@@ -16,9 +16,16 @@ export const todoAPI = {
             .then(response => response.data);
     },
 
-    getTodoTasks(todoListId) {
-        return instance.get('todo-lists/' + todoListId + '/tasks')
-            .then(response => response.data)
+    getTodoTasks(todoListId, currentPage, pageSize) {
+        return instance.get('todo-lists/' + todoListId + `/tasks?page=${currentPage}&count=${pageSize}`)
+            .then(response => {
+                response.data.items.map(o => {
+                    o.startDate = new Date(o.startDate + 'Z')
+                    o.deadline = new Date(o.deadline + 'Z')
+                    return { ...o }
+                })
+                return response.data;
+            })
     },
 
     addTodoList(title) {
@@ -31,7 +38,7 @@ export const todoAPI = {
             .then(response => response.data)
     },
     changeTodoList(todoListId, title) {
-         return instance.put('todo-lists/' + todoListId, {
+        return instance.put('todo-lists/' + todoListId, {
             title: title,
         })
             .then(response => {
@@ -40,7 +47,8 @@ export const todoAPI = {
     },
     addTask(todoListId, title) {
         return instance.post('todo-lists/' + todoListId + '/tasks', { title: title }) //или просто title
-            .then(response => response.data)
+            .then(response => {
+                return response.data })
     },
     deleteTask(todoListId, taskId) {
         return instance.delete('todo-lists/' + todoListId + '/tasks/' + taskId)
@@ -53,9 +61,14 @@ export const todoAPI = {
             status: task.status,
             priority: task.priority,
             startDate: task.startDate,
-            deadline: task.deadline
+            deadline: task.deadline,
         })
-            .then(response => response.data)
+            .then(response => {
+                response.data.data.item.startDate = new Date(response.data.data.item.startDate)
+                response.data.data.item.deadline = new Date(response.data.data.item.deadline)
+                return response.data
+
+            })
     },
 
 }

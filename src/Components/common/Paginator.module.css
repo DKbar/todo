@@ -1,0 +1,8 @@
+.paginator{
+    text-align: center;
+}
+.selectedPage{
+    
+    font-weight: bold;
+    border: 1px solid gold;
+}

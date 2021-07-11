@@ -9,9 +9,30 @@ export const getTodoPage = createSelector(getTodoPageSelector,
         debugger
         return task.filter(p => true)
     }) */ // example reselect
-export const getTodoPage = (state) => {
-    return state.todoPage
+export const getTodoListsS = (state) => {
+    return state.todoPage.todoLists
 }
+export const getTodoTasksS = (state) => {
+    return state.todoPage.todoTasks
+}
+export const getIsFetching = (state) => {
+    return state.todoPage.isFetching
+}
+
+export const getPageSize = (state) => {
+    return state.todoPage.pageSize
+}
+
+export const getTotalCount = (state) => {
+    return state.todoPage.totalCount
+}
+
+export const getCurrentPage = (state) => {
+    return state.todoPage.currentPage
+}
+
 export const getIsAuth = (state) => {
     return state.auth.isAuth
 }
+
+
