@@ -1,0 +1,1 @@
+{"version":3,"sources":["Components/Settings/Settings.jsx"],"names":["Settings"],"mappings":"gHAQeA,UANE,WACb,OACA","file":"static/js/9.e07b2e0a.chunk.js","sourcesContent":["/* import styles from \"./Settings.module.css\" */\r\n\r\nconst Settings = () => {\r\n    return (\r\n    <div>Settings!!!!!!!!!</div>\r\n    )\r\n}\r\n\r\nexport default Settings;"],"sourceRoot":""}
