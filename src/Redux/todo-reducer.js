@@ -19,7 +19,7 @@ let initialState = {
         {
             description: '',
             title: '',
-            completed: '',
+            completed: false,
             status: '',
             priority: '',
             startDate: new Date(),
@@ -167,21 +167,23 @@ export const getTodoTasks = (todoListId, currentPage, pageSize) => async (dispat
     dispatch(setTotalPagesCountAC(data.totalCount))
 
 }
-export const addTask = (todoListId, title, cb, totalCount) => async (dispatch) => {
+export const addTask = (todoListId, title, /* cb, */ totalCount) => async (dispatch, getState) => {
     let data = await todoAPI.addTask(todoListId, title);
     let totalCountUp = totalCount + 1;
+    const pageSize = getState().todoPage.pageSize
     if (data.resultCode === 0) {
         let newTask = data.data.item;
         newTask.description = 'Описание';
         newTask.completed = false;
-        newTask.status = 3;
+        newTask.status = 0;
         newTask.priority = 3;
         newTask.startDate = new Date();
         newTask.deadline = new Date(1000*60*60*24 + +new Date());
         dispatch(onAddTaskAC(newTask))
         dispatch(setTotalPagesCountAC(totalCountUp))
         dispatch(changeTask(newTask.todoListId, newTask.id, newTask))
-        cb();
+        dispatch(getTodoTasks(todoListId, 1, pageSize))
+/*         cb(); */
     }
 
 }

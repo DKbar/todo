@@ -11,7 +11,7 @@ const TodoLists = (props) => {
 
             {props.isFetching ? <Preloader /> : null}
             <div className={styles.items}>
-                <TodoListsForm addTodoList={props.addTodoList} />
+                <TodoListsForm addTodoList={props.addTodoList} value={''} />
                 <div className={styles.listItem}>
                     {props.todoLists.map(list => {
                         return <TodoList key={list.id} title={list.title} id={list.id} 

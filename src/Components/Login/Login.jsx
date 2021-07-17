@@ -9,7 +9,7 @@ let Login = (props) => {
     return (<>
         <div className={styles.login}>
         <h2>Login</h2>    
-        <LoginForm login={props.login} isAuth = {props.isAuth}/>
+        <LoginForm login={props.login} isAuth = {props.isAuth} captchaUrl={props.captchaUrl}/>
         </div>
         </>
         )

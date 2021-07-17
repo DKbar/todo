@@ -10,6 +10,7 @@ const instance = axios.create({
 
 })
 
+
 export const todoAPI = {
     getTodoLists() {
         return instance.get('todo-lists')
@@ -20,8 +21,8 @@ export const todoAPI = {
         return instance.get('todo-lists/' + todoListId + `/tasks?page=${currentPage}&count=${pageSize}`)
             .then(response => {
                 response.data.items.map(o => {
-                    o.startDate = new Date(o.startDate + 'Z')
-                    o.deadline = new Date(o.deadline + 'Z')
+                    o.startDate = o.startDate === null ? new Date() : new Date(o.startDate + 'Z')
+                    o.deadline = o.deadline === null ? new Date() : new Date(o.deadline + 'Z')
                     return { ...o }
                 })
                 return response.data;
@@ -58,6 +59,7 @@ export const todoAPI = {
         return instance.put('todo-lists/' + todoListId + '/tasks/' + taskId, {
             title: task.title,
             description: task.description,
+            completed:task.completed,
             status: task.status,
             priority: task.priority,
             startDate: task.startDate,
@@ -83,7 +85,8 @@ export const authAPI = {
         return instance.post('auth/login', {
             email: values.email,
             password: values.password,
-            rememberMe: values.rememberMe
+            rememberMe: values.rememberMe,
+            captcha:values.captcha
         })
             .then(response => response.data)
     },
@@ -93,7 +96,14 @@ export const authAPI = {
     },
 }
 
-
+export const securityAPI = {
+    getCaptchaUrl() {
+        
+        return instance.get('security/get-captcha-url')
+        .then(response => {
+            return response.data})
+    }
+}
 
 
 

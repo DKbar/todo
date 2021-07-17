@@ -1,6 +1,10 @@
+import { storageService } from "../storageService";
+
 const ADD_PAYMENT = 'ADD_PAYMENT';
 const UPDATE_PAYMENT_TEXT = 'UPDATE_PAYMENT_TEXT';
-const UPDATE_PAYMENT_COST = 'UPDATE_PAYMENT_COST'
+const UPDATE_PAYMENT_COST = 'UPDATE_PAYMENT_COST';
+const SET_PAYMENTS = 'SET_PAYMENTS';
+
 let dateFormat = (num) => {
     if (num < 10) {
         num = "0" + num;
@@ -10,7 +14,8 @@ let dateFormat = (num) => {
 }
 
 let initialState = {
-    paymentsData: [
+    paymentsData: [],
+/*     paymentsData: [
         {
             date: '15.03.2021',
             payments: [
@@ -26,13 +31,18 @@ let initialState = {
             ]
         },
 
-    ],
+    ], */
     newPaymentText: '',
     newPaymentCost: 0,
 };
 
 const paymentsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_PAYMENTS:
+            return {
+                ...state,
+                paymentsData: action.items
+            };
         case ADD_PAYMENT:
             let newPayment = {
                 id: 7,
@@ -80,7 +90,10 @@ const paymentsReducer = (state = initialState, action) => {
     }
 }
 
-
+export const setPaymentsAC = (items) => ({
+    type: SET_PAYMENTS,
+    items
+});
 export const onPaymentChangeAC = (text) => ({
     type: UPDATE_PAYMENT_TEXT,
     text: text
@@ -93,5 +106,22 @@ export const onPaymentCostChangeAC = (num) => ({
 });
 
 export const onAddPaymentAC = () => ({ type: ADD_PAYMENT })
+
+
+
+export const getPayments = () => (dispatch) => {
+    const items = storageService.getItems();
+    dispatch(setPaymentsAC(items));
+    
+}
+
+export const addPayments = () => (dispatch, getState) => {
+    dispatch(onAddPaymentAC())
+    const paymentsData = getState().paymentsPage.paymentsData
+    storageService.setItems(paymentsData);
+    
+    
+    
+}
 
 export default paymentsReducer;

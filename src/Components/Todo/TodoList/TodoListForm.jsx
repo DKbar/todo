@@ -3,7 +3,7 @@ import { Input } from "../../FormsControls/FormsControl";
 import { requiredCreator } from "../../utils/validators/validators";
 
 let TodoListForm = (props) => {
-    let onSubmit; 
+/*     let onSubmit;  */
    return (
         <Formik
             initialValues={{ title: '' }}
@@ -17,7 +17,7 @@ let TodoListForm = (props) => {
             }}
         >
             {({ isSubmitting, handleReset }) => {
-                onSubmit= handleReset;
+               /*  onSubmit= handleReset; */
                 return(
                 <Form>
                     <div>

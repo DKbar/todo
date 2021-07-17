@@ -1,8 +1,21 @@
 .paginator{
     text-align: center;
 }
+
+.pages{
+    display:inline-block;
+    width: 20px;
+    padding-left: 1px;
+    padding-right: 1px;
+    margin: 2px;
+    border: 1px solid grey;
+}
+.pages:hover{
+background-color: grey;
+cursor: pointer;
+}
 .selectedPage{
     
     font-weight: bold;
-    border: 1px solid gold;
+    border: 2px solid rgb(144, 102, 241);
 }

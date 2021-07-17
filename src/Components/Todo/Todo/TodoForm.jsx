@@ -4,20 +4,21 @@ import { Input } from "../../FormsControls/FormsControl";
 import { requiredCreator } from "../../utils/validators/validators";
 
 let TodoForm = (props) => {
-    let onSubmit; 
+    /* let onSubmit;  */
    return (
         <Formik
             initialValues={{ newTaskName: '' }}
              validate={requiredCreator(["newTaskName"],6)}
-             onSubmit={(values, { setSubmitting }) => {
+             onSubmit={(values, { setSubmitting, resetForm}) => {
                 setTimeout(() => {
-                    props.addTask(props.todoListId, values.newTaskName, onSubmit, props.totalCount)
+                    props.addTask(props.todoListId, values.newTaskName,  /* onSubmit, */ props.totalCount)
                     setSubmitting(false);
+                    resetForm();
                 }, 400);
-            }}
+            }}  
         >
             {({ isSubmitting, handleReset }) => {
-                onSubmit= handleReset;
+                /* onSubmit= handleReset; */
                 return(
                 <Form>
                     <div>

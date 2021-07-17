@@ -1,4 +1,4 @@
-.task {
+/* .task {
     margin: 0 auto;
     margin-top: 5px;
     min-height: 30px;
@@ -6,42 +6,48 @@
     font-size: 20px;
     border: solid 1px blue;
     border-radius: 15px;
-}
+} */
 
+
+.task {
+    margin: 0 auto;
+    margin-top: 12px;
+    min-height: 100px;
+    width: 800px;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: rgb(211, 250, 245);
+    box-shadow: 8px 6px 2px 1px rgba(0, 0, 255, .2);
+}
 .task .title {
     font-size: 22px;
     font-weight: bold;
 }
 
-.red {
-    margin: 0 auto;
-    margin-top: 5px;
-    min-height: 100px;
-    width: 800px;
-    font-size: 20px;
-    border: solid 1px blue;
-    border-radius: 15px;
-}
-.red:hover {
+.task:hover {
     cursor: pointer;
     border: solid 1px green;
     position: relative;
+    box-shadow: 8px 6px 2px 1px rgba(0, 0, 255, 0.432);
 }
-.red:hover .editControls {
+.task:hover .editControls {
     display: inline;
     position: absolute;
     right: 10px;
     top: 10px;
 }
-.red .editControls {
+.task .editControls {
     display: none;
 }
-.red img{
+.task img{
     height: 30px;
     width: 30px;
     float: right;
 }
 
+.completed{
+    background-color: rgb(31, 236, 141);
+}
 .hidden {
     display: none;
 }
@@ -58,4 +64,31 @@
     top: 0;
     position: absolute;
     background-color: white;
+}
+.priority1{
+    border: solid 3px rgb(0, 255, 21);
+    box-shadow: 8px 6px 2px 1px rgb(48, 177, 59);
+}
+
+.priority2{
+    border: solid 3px rgb(55, 0, 255);
+    box-shadow: 8px 6px 2px 1px rgba(93, 86, 197, 0.973);
+}
+
+.priority3{
+    border: solid 3px rgb(255, 0, 21);
+    box-shadow: 8px 6px 2px 1px rgb(187, 69, 53);
+}
+
+.progressBarWrap {
+    height: 8px;
+    width: 95%;
+    margin: auto;
+
+}
+.progressBarWrap .progressBar {
+    background: blue;
+    width: 0;
+    -webkit-transition: width 1s ease-in-out;
+    height: 100%;
 }

@@ -18,10 +18,11 @@ let TodoListsForm = (props) => {
                }
                return errors;
              }} */
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting, resetForm }) => {
                 setTimeout(() => {
                     props.addTodoList(values.todoListName)
                     setSubmitting(false);
+                    resetForm();
                 }, 400);
             }}
         >

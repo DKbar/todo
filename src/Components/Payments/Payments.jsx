@@ -29,7 +29,7 @@ const Payments = (props) => {
     }
 
     let onAddPayment = () => {
-        props.onAddPayment();
+        props.addPayments();
     }
 
     return (<>

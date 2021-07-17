@@ -1,4 +1,6 @@
+import cn from 'classnames';
 import styles from './Paginator.module.css'
+
 const Paginator = (props) => {
     const pagesCount = Math.ceil(props.totalCount / props.pageSize)
     const pages = [];
@@ -7,7 +9,7 @@ const Paginator = (props) => {
     }
     return<div className={styles.paginator}>
         {pages.map((p, index) =>  
-        <span key={index} className={props.currentPage === p ? styles.selectedPage : null}
+        <span key={index} className= {cn({[styles.selectedPage]: props.currentPage === p}, styles.pages )} 
         onClick = {()=>props.onPageChange(p)}>{p}</span> )}
     </div>
 }
